@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EBE",
+    "BAB",
+    "EBE"
+  ],
+  "key": {
+    "E": { "item": "minecraft:emerald_block" },
+    "B": { "item": "minecraft:bookshelf" },
+    "A": { "item": "easy_villagers:auto_trader" }
+  },
+  "result": {
+    "id": "easy_villagers_enchantment_library:enchantment_library",
+    "count": 1
+  }
+}

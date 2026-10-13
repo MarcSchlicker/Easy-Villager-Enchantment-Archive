@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "dev.marc.easyvillagerslibrary.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "mixins": [
+    "LibraryMerchantMenuMixin",
+    "LibrarySlotPositionAccess",
+    "TraderTileentityMixin"
+  ],
+  "client": [
+    "LibraryMerchantScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

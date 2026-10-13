@@ -1,0 +1,99 @@
+plugins {
+    id 'net.neoforged.moddev' version '2.0.141'
+}
+
+version = project.mod_version
+group = 'io.github.marcschlicker.enchantmentarchive'
+base.archivesName = 'EasyVillagerEnchantmentArchive'
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
+    maven {
+        name = 'BlameJared'
+        url = 'https://maven.blamejared.com'
+    }
+}
+
+sourceSets {
+    integration {
+        compileClasspath += sourceSets.main.output + configurations.compileClasspath
+        runtimeClasspath += sourceSets.main.output + configurations.runtimeClasspath
+    }
+}
+
+neoForge {
+    version = project.neoforge_version
+    runs {
+        client { client() }
+        server { server(); gameDirectory = file('run-server') }
+        integrationServer {
+            server()
+            gameDirectory = file('run-integration')
+            systemProperty 'library.integrationTests', 'true'
+            programArgument '--nogui'
+        }
+    }
+    mods {
+        easy_villagers_enchantment_library {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.integration
+        }
+    }
+}
+
+dependencies {
+    compileOnly "maven.modrinth:easy-villagers:${project.easy_villagers_version}"
+    runtimeOnly "maven.modrinth:easy-villagers:${project.easy_villagers_version}"
+    compileOnly "mezz.jei:jei-1.21.1-neoforge:${project.jei_version}"
+    runtimeOnly "mezz.jei:jei-1.21.1-neoforge:${project.jei_version}"
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+tasks.named('processResources', ProcessResources).configure {
+    inputs.property('mod_version', project.version)
+    filesMatching('META-INF/neoforge.mods.toml') { expand(mod_version: project.version) }
+}
+
+tasks.named('jar', Jar).configure {
+    manifest.attributes('Implementation-Version': project.version)
+    from('LICENSE') {
+        into 'META-INF'
+        rename { 'LICENSE-EasyVillagerEnchantmentArchive.txt' }
+    }
+    from('THIRD_PARTY_NOTICES.md') { into 'META-INF' }
+}
+
+tasks.named('runIntegrationServer', JavaExec).configure {
+    doFirst {
+        def testDirectory = file('run-integration')
+        testDirectory.mkdirs()
+        def eula = new File(testDirectory, 'eula.txt')
+        if (!eula.exists() || !(eula.text =~ /(?m)^\s*eula\s*=\s*true\s*$/)) {
+            throw new GradleException('Read the Minecraft EULA and, if you agree, create run-integration/eula.txt with eula=true. See README.md.')
+        }
+        new File(testDirectory, 'server.properties').text = '''server-ip=127.0.0.1
+server-port=25579
+level-name=integration-world
+online-mode=false
+spawn-protection=0
+max-players=1
+view-distance=2
+simulation-distance=2
+enable-rcon=false
+enable-query=false
+'''
+    }
+    doLast {
+        def report = file('run-integration/logs/latest.log').text
+        if (!report.contains('LIBRARY INTEGRATION SUCCESS:') || report.contains('LIBRARY INTEGRATION FAILED')) {
+            throw new GradleException('Minecraft integration tests failed; see run-integration/logs/latest.log.')
+        }
+    }
+}

@@ -1,0 +1,22 @@
+name: Bug report
+description: Report a reproducible issue with the Library add-on.
+body:
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Minecraft, NeoForge, Easy Villagers and this add-on.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and screenshots
+      description: Link or attach the relevant crash report, latest.log and screenshots. Remove personal paths, server addresses and credentials first.

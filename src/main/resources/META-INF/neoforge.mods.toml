@@ -1,0 +1,42 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mods]]
+modId = "easy_villagers_enchantment_library"
+version = "${mod_version}"
+displayName = "Easy Villager Enchantment Archive"
+authors = "Marc"
+credits = "Easy Villagers by Max Henkel. Independent add-on."
+description = '''A searchable enchantment-book archive and reroll workstation for Easy Villagers.'''
+
+[[mixins]]
+config = "easy_villagers_enchantment_library.mixins.json"
+
+[[dependencies.easy_villagers_enchantment_library]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.190,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.easy_villagers_enchantment_library]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1]"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.easy_villagers_enchantment_library]]
+modId = "easy_villagers"
+type = "required"
+versionRange = "[1.21.1-1.1.42,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.easy_villagers_enchantment_library]]
+modId = "jei"
+type = "optional"
+versionRange = "[19.57.0,)"
+ordering = "AFTER"
+side = "CLIENT"
