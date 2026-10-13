@@ -4,7 +4,7 @@ A searchable enchanted-book archive and reroll workstation for [Easy Villagers](
 
 Stop comparing librarian trades one villager at a time. Store captured villagers in one block, browse the best book offers together, buy directly from the Library, and reroll fresh librarians without constantly placing and breaking a workstation.
 
-![Four-panel overview of the Enchantment Archive: store villagers, browse trades, buy books, and reroll a fresh librarian.](docs/images/overview.svg)
+![In-game view of the Enchantment Archive: searchable book offers, a price guide, direct trades, stored villagers and reroll controls.](docs/images/enchantment-archive-library.png)
 
 ## What it does
 
